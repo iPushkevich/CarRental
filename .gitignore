@@ -1,0 +1,6 @@
+# Project exclude paths
+/target/
+log/
+.idea/
+*.iml
+*.iws
