@@ -3,6 +3,7 @@ package by.epamtc.pushkevich.controller.command.order;
 import by.epamtc.pushkevich.controller.command.Command;
 import by.epamtc.pushkevich.controller.command.CommandParameterName;
 import by.epamtc.pushkevich.entity.Order;
+import by.epamtc.pushkevich.exception.ServiceException;
 import by.epamtc.pushkevich.service.order.OrderService;
 import by.epamtc.pushkevich.service.order.OrderServiceFactory;
 
@@ -23,22 +24,32 @@ public class UserOrdersCommand implements Command {
     private static final String NO_ORDERS = "noOrders";
     private static final String NO_ORDERS_MSG = "You have no orders";
 
+    private static final String DATABASE_ERROR = "Database error";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String direction = CommandParameterName.GO_TO_USER_ACCOUNT_PAGE.getDirection();
 
-        int userId = Integer.parseInt(request.getParameter(USER_ID));
+        int userId;
+        List<Order> orders;
 
-        List<Order> orders = orderService.getOrders(userId);
+        try {
+            userId = Integer.parseInt(request.getParameter(USER_ID));
+            orders = orderService.getOrders(userId);
 
-        if (orders.size() != 0) {
-            request.setAttribute(ORDERS, orders);
+            if (orders.size() != 0) {
+                request.setAttribute(ORDERS, orders);
+            } else {
+                request.setAttribute(NO_ORDERS, NO_ORDERS_MSG);
+            }
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher(direction);
+            dispatcher.forward(request, response);
         }
-        else {
-            request.setAttribute(NO_ORDERS, NO_ORDERS_MSG);
+        catch (ServiceException e){
+            if (e.getMessage().equalsIgnoreCase(DATABASE_ERROR)) {
+                throw new RuntimeException();
+            }
         }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(direction);
-        dispatcher.forward(request, response);
     }
 }

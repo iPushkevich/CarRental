@@ -65,7 +65,6 @@ public class LoginCommand implements Command {
             if (e.getMessage().equalsIgnoreCase(DATABASE_ERROR)) {
                 throw new RuntimeException();
             }
-
             request.setAttribute(ERROR, e.getMessage());
         }
 

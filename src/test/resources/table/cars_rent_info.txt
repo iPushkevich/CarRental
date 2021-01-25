@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `cars_rent_test`.`cars_rent_info` (
+  `car_rent_info_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `car_description` VARCHAR(1024) NULL DEFAULT NULL,
+  `car_rent_cost` SMALLINT(5) UNSIGNED NULL DEFAULT NULL,
+  `car_rating` DOUBLE NULL DEFAULT '0',
+  `car_fuel_lvl` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
+  `car_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`car_rent_info_id`),
+  UNIQUE INDEX `car_rent_info_id_UNIQUE` (`car_rent_info_id` ASC) VISIBLE,
+  UNIQUE INDEX `car_id_UNIQUE` (`car_id` ASC) VISIBLE,
+  INDEX `fk_idx` (`car_id` ASC) VISIBLE,
+  CONSTRAINT `fk`
+    FOREIGN KEY (`car_id`)
+    REFERENCES `cars_rent`.`cars` (`car_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 42
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

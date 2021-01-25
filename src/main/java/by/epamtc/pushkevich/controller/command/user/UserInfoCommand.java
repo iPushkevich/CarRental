@@ -86,7 +86,6 @@ public class UserInfoCommand implements Command {
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher(direction);
                 dispatcher.forward(request, response);
-
             }
             else {
                 user = userService.getUserById(id);

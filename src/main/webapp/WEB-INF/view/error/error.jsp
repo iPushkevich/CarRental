@@ -5,6 +5,8 @@
     <title>ERROR</title>
 </head>
 <body>
-<h1 align="center">TRY LATER</h1>
+<br>
+<br>
+<h1 align="center"><a href="controller?command=go_to_main_page">TRY LATER</a></h1>
 </body>
 </html>

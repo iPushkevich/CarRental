@@ -1,30 +1,31 @@
 package by.epamtc.pushkevich.service.order;
 
 import by.epamtc.pushkevich.entity.Order;
+import by.epamtc.pushkevich.exception.ServiceException;
 
 import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
-    void addOrder(Order order, int userID);
+    void addOrder(Order order, int userID) throws ServiceException;
 
-    int getOrderID(Order order);
+    int getOrderID(Order order) throws ServiceException;
 
-    Order getOrder(int orderID);
+    Order getOrder(int orderID) throws ServiceException;
 
-    Date getCarRentEndDate(int carID);
+    Date getCarRentEndDate(int carID) throws ServiceException;
 
-    List<Order> getOrders(int userID);
+    List<Order> getOrders(int userID) throws ServiceException;
 
-    List<Order> getOrders();
+    List<Order> getOrders() throws ServiceException;
 
-    List<Order> getOrders(String phoneNumber);
+    List<Order> getOrders(String phoneNumber) throws ServiceException;
 
-    List<Order> getOrders(String name, String surname);
+    List<Order> getOrders(String name, String surname) throws ServiceException;
 
-    void changeOrderStatus(int orderID, String status);
+    void changeOrderStatus(int orderID, String status) throws ServiceException;
 
-    void changeDeclineReason(int orderID, String declineReason);
+    void changeDeclineReason(int orderID, String declineReason) throws ServiceException;
 
 
 }

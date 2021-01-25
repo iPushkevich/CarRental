@@ -5,8 +5,11 @@ import by.epamtc.pushkevich.controller.command.CommandParameterName;
 import by.epamtc.pushkevich.entity.Car;
 import by.epamtc.pushkevich.entity.CarRentInfo;
 import by.epamtc.pushkevich.exception.ServiceException;
+import by.epamtc.pushkevich.repository.car.CarSQLRepository;
 import by.epamtc.pushkevich.service.car.CarService;
 import by.epamtc.pushkevich.service.car.CarServiceFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +23,8 @@ import java.util.List;
 public class AddCarCommand implements Command {
     private final CarServiceFactory carServiceFactory = CarServiceFactory.getInstance();
     private final CarService carService = carServiceFactory.getCarService();
+
+    private final Logger logger = LogManager.getLogger(AddCarCommand.class);
 
     private static final String BRAND = "brand";
     private static final String MODEL = "model";
@@ -123,6 +128,8 @@ public class AddCarCommand implements Command {
             response.sendRedirect(direction);
         }
         catch (ServiceException e){
+            logger.error(e.getMessage());
+
             if (e.getMessage().equalsIgnoreCase(DATABASE_ERROR)){
                 throw new RuntimeException();
             }

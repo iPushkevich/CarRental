@@ -61,7 +61,6 @@ public class RegistrationCommand implements Command {
             if (e.getMessage().equalsIgnoreCase(DATABASE_ERROR)){
                 throw new RuntimeException();
             }
-
             request.setAttribute(ERROR, e.getMessage());
 
             direction = CommandParameterName.GO_TO_REGISTRATION_PAGE.getDirection();

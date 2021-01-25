@@ -1,0 +1,1 @@
+DROP DATABASE `cars_rent_test`;

@@ -1,0 +1,224 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+CREATE SCHEMA IF NOT EXISTS `cars_rent` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `cars_rent` ;
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`cars`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`cars` (
+  `car_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `car_brand` VARCHAR(45) NULL DEFAULT NULL,
+  `car_model` VARCHAR(45) NULL DEFAULT NULL,
+  `car_year` SMALLINT(6) NULL DEFAULT NULL,
+  `car_mileage` INT(10) UNSIGNED NULL DEFAULT NULL,
+  `car_engine_type` VARCHAR(45) NULL DEFAULT NULL,
+  `car_engine_size` DECIMAL(2,1) NULL DEFAULT NULL,
+  `car_transmission` ENUM('AUTO', 'MANUAL') NULL DEFAULT NULL,
+  `car_wheels_drive` VARCHAR(45) NULL DEFAULT NULL,
+  `car_type` VARCHAR(45) NULL DEFAULT NULL,
+  `car_rent_count` INT(10) UNSIGNED NULL DEFAULT '0',
+  `is_car_available` TINYINT(4) NULL DEFAULT '1',
+  PRIMARY KEY (`car_id`),
+  UNIQUE INDEX `car_id_UNIQUE` (`car_id` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 589
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`cars_rent_info`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`cars_rent_info` (
+  `car_rent_info_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `car_description` VARCHAR(1024) NULL DEFAULT NULL,
+  `car_rent_cost` SMALLINT(5) UNSIGNED NULL DEFAULT NULL,
+  `car_rating` DOUBLE NULL DEFAULT '0',
+  `car_fuel_lvl` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
+  `car_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`car_rent_info_id`),
+  UNIQUE INDEX `car_rent_info_id_UNIQUE` (`car_rent_info_id` ASC) VISIBLE,
+  UNIQUE INDEX `car_id_UNIQUE` (`car_id` ASC) VISIBLE,
+  INDEX `fk_idx` (`car_id` ASC) VISIBLE,
+  CONSTRAINT `fk`
+    FOREIGN KEY (`car_id`)
+    REFERENCES `cars_rent`.`cars` (`car_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 42
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`cars_return`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`cars_return` (
+  `car_return_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `car_return_date` DATETIME NULL DEFAULT NULL,
+  `car_return_damage_description` VARCHAR(225) NULL DEFAULT 'No damage',
+  `car_return_fuel_lvl` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
+  `car_return_cost_penalty` DECIMAL(6,2) NULL DEFAULT '0.00',
+  `car_return_penalty_description` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`car_return_id`),
+  UNIQUE INDEX `cars_return_id_UNIQUE` (`car_return_id` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`cars_reviews`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`cars_reviews` (
+  `review_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `car_review` VARCHAR(255) NULL DEFAULT NULL,
+  `car_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`review_id`),
+  UNIQUE INDEX `review_id_UNIQUE` (`review_id` ASC) VISIBLE,
+  INDEX `fk_review_cars_idx` (`car_id` ASC) VISIBLE,
+  CONSTRAINT `fk_review_cars`
+    FOREIGN KEY (`car_id`)
+    REFERENCES `cars_rent`.`cars` (`car_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 59
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`orders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`orders` (
+  `order_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `rent_start` TIMESTAMP NULL DEFAULT NULL,
+  `rent_end` TIMESTAMP NULL DEFAULT NULL,
+  `cost_rate` DOUBLE NULL DEFAULT NULL,
+  `final_cost` DOUBLE NULL DEFAULT NULL,
+  `order_status` VARCHAR(45) NULL DEFAULT 'обрабатывается',
+  `order_decline_reason` VARCHAR(255) NULL DEFAULT NULL,
+  `user_id` INT(11) NULL DEFAULT NULL,
+  `car_id` INT(11) NULL DEFAULT '0',
+  `car_return_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  UNIQUE INDEX `order_id_UNIQUE` (`order_id` ASC) VISIBLE,
+  INDEX `fk_order_cars1_idx` (`car_id` ASC) VISIBLE,
+  INDEX `fk_orders_cars_return1_idx` (`car_return_id` ASC) VISIBLE,
+  CONSTRAINT `fk_order_cars1`
+    FOREIGN KEY (`car_id`)
+    REFERENCES `cars_rent`.`cars` (`car_id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_cars_return1`
+    FOREIGN KEY (`car_return_id`)
+    REFERENCES `cars_rent`.`cars_return` (`car_return_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 65
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`roles`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`roles` (
+  `role_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_role` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`role_id`),
+  UNIQUE INDEX `user_role_UNIQUE` (`role_id` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`users` (
+  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_email` VARCHAR(225) NULL DEFAULT NULL,
+  `user_password` VARCHAR(255) NULL DEFAULT NULL,
+  `user_registration_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_has_active_rent` TINYINT(4) NULL DEFAULT '0',
+  `user_role_id` INT(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `id_UNIQUE` (`user_id` ASC) VISIBLE,
+  UNIQUE INDEX `user_email_UNIQUE` (`user_email` ASC) VISIBLE,
+  INDEX `fk_users_roles1_idx` (`user_role_id` ASC) VISIBLE,
+  CONSTRAINT `fk_users_roles`
+    FOREIGN KEY (`user_role_id`)
+    REFERENCES `cars_rent`.`roles` (`role_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 161
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`users_has_orders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`users_has_orders` (
+  `user_id` INT(11) NOT NULL,
+  `order_id` INT(11) NOT NULL,
+  PRIMARY KEY (`user_id`, `order_id`),
+  INDEX `fk_users_has_orders_orders1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_users_has_orders_users1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_users_has_orders_orders1`
+    FOREIGN KEY (`order_id`)
+    REFERENCES `cars_rent`.`orders` (`order_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_users_has_orders_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cars_rent`.`users` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `cars_rent`.`users_info`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cars_rent`.`users_info` (
+  `user_info_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_name` VARCHAR(45) NULL DEFAULT NULL,
+  `user_surname` VARCHAR(45) NULL DEFAULT NULL,
+  `user_age` TINYINT(3) NULL DEFAULT NULL,
+  `user_phone_number` VARCHAR(45) NULL DEFAULT NULL,
+  `user_passport` VARCHAR(45) NULL DEFAULT NULL,
+  `user_driving_experience` TINYINT(3) NULL DEFAULT '0',
+  `user_road_accident_count` SMALLINT(5) NULL DEFAULT '0',
+  `user_previous_rent_count` SMALLINT(5) NULL DEFAULT '0',
+  `user_discount` TINYINT(3) NULL DEFAULT '0',
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`user_info_id`),
+  UNIQUE INDEX `iduser_info_id_UNIQUE` (`user_info_id` ASC) VISIBLE,
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE,
+  INDEX `fk_users_info_users1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cars_rent`.`users` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 137
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

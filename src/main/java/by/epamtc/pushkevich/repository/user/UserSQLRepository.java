@@ -15,7 +15,7 @@ import java.util.*;
 
 public class UserSQLRepository implements UserRepository {
     private ConnectionPool pool;
-    private final Logger logger = LogManager.getLogger(UserRepository.class);
+    private static final Logger logger = LogManager.getLogger(UserRepository.class);
 
     private static final String DATABASE_ERROR = "Database error";
     private static final String USER_NOT_FOUND = "User not found";

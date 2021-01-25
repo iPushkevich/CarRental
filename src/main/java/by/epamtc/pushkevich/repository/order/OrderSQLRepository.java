@@ -2,6 +2,7 @@ package by.epamtc.pushkevich.repository.order;
 
 import by.epamtc.pushkevich.entity.Order;
 import by.epamtc.pushkevich.exception.ConnectionPoolException;
+import by.epamtc.pushkevich.exception.RepositoryException;
 import by.epamtc.pushkevich.repository.connection.ConnectionPool;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -11,26 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderSQLRepository implements OrderRepository {
-    private final ConnectionPool pool;
+    private ConnectionPool pool;
     private final Logger logger = LogManager.getLogger(OrderSQLRepository.class);
 
     private static final String DATABASE_ERROR = "Database error";
 
-    public OrderSQLRepository(){
-        try {
-            pool = ConnectionPool.getInstance();
-        } catch (ConnectionPoolException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException();
-        }
-    }
-
     @Override
-    public void addOrder(Order order, int userID) {
+    public void addOrder(Order order, int userID) throws RepositoryException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             Date startRent = new Date(order.getStartRentDate().getTime());
@@ -67,12 +60,9 @@ public class OrderSQLRepository implements OrderRepository {
 
             preparedStatement.executeUpdate();
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
-        }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
         finally {
             pool.closeConnection(connection, preparedStatement);
@@ -80,7 +70,7 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public int getOrderID(Order order) {
+    public int getOrderID(Order order) throws RepositoryException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet set = null;
@@ -88,6 +78,7 @@ public class OrderSQLRepository implements OrderRepository {
         int orderID = 0;
 
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             Date rentStart = new Date(order.getStartRentDate().getTime());
@@ -113,12 +104,9 @@ public class OrderSQLRepository implements OrderRepository {
                 orderID = set.getInt(1);
             }
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
-        }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
         finally {
             pool.closeConnection(connection, preparedStatement, set);
@@ -128,13 +116,15 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public Order getOrder(int orderID) {
+    public Order getOrder(int orderID) throws RepositoryException {
         Connection connection = null;
         Statement statement = null;
         ResultSet set = null;
 
         Order order;
+
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             order = new Order();
@@ -156,12 +146,9 @@ public class OrderSQLRepository implements OrderRepository {
                 order.setCarID(set.getInt(9));
             }
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
-        }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
         finally {
             pool.closeConnection(connection, statement, set);
@@ -171,13 +158,15 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public java.util.Date getCarRentEndDate(int carID) {
+    public java.util.Date getCarRentEndDate(int carID) throws RepositoryException {
         Connection connection = null;
         Statement statement = null;
         ResultSet set = null;
 
         java.util.Date date;
+
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             date = null;
@@ -191,12 +180,9 @@ public class OrderSQLRepository implements OrderRepository {
                 date = set.getTimestamp(1);
             }
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
-        }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
         finally {
             pool.closeConnection(connection, statement, set);
@@ -206,7 +192,7 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public List<Order> getOrders(int userID){
+    public List<Order> getOrders(int userID) throws RepositoryException {
         List<Order> orders = new ArrayList<>();
 
         String query = Query.GET_ALL_ORDERS_BY_USER_ID + userID;
@@ -214,12 +200,13 @@ public class OrderSQLRepository implements OrderRepository {
         return getOrders(orders, query);
     }
 
-    private List<Order> getOrders(List<Order> orders, String query) {
+    private List<Order> getOrders(List<Order> orders, String query) throws RepositoryException {
         Connection connection = null;
         Statement statement = null;
         ResultSet set = null;
 
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             Order order;
@@ -242,13 +229,11 @@ public class OrderSQLRepository implements OrderRepository {
                 orders.add(order);
             }
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
-        } finally {
+        finally {
             pool.closeConnection(connection, statement, set);
         }
 
@@ -256,7 +241,7 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public List<Order> getOrders() {
+    public List<Order> getOrders() throws RepositoryException {
         List<Order> orders = new ArrayList<>();
 
         String query = Query.GET_ALL_ORDERS;
@@ -265,7 +250,7 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public List<Order> getOrders(String phoneNumber) {
+    public List<Order> getOrders(String phoneNumber) throws RepositoryException {
         List<Order> orders = new ArrayList<>();
 
         String query = Query.GET_ORDERS_BY_PHONE_NUMBER + phoneNumber;
@@ -274,7 +259,7 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public List<Order> getOrders(String name, String surname) {
+    public List<Order> getOrders(String name, String surname) throws RepositoryException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet set = null;
@@ -282,6 +267,7 @@ public class OrderSQLRepository implements OrderRepository {
         List<Order> orders;
 
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             orders = new ArrayList<>();
@@ -312,12 +298,9 @@ public class OrderSQLRepository implements OrderRepository {
                 orders.add(order);
             }
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
-        }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
         finally {
             pool.closeConnection(connection, preparedStatement, set);
@@ -327,11 +310,12 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public void changeOrderStatus(int orderID, String status) {
+    public void changeOrderStatus(int orderID, String status) throws RepositoryException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             String query = Query.CHANGE_STATUS;
@@ -343,12 +327,9 @@ public class OrderSQLRepository implements OrderRepository {
 
             preparedStatement.executeUpdate();
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
-        }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
         finally {
             pool.closeConnection(connection, preparedStatement);
@@ -356,11 +337,12 @@ public class OrderSQLRepository implements OrderRepository {
     }
 
     @Override
-    public void changeDeclineReason(int orderID, String declineReason) {
+    public void changeDeclineReason(int orderID, String declineReason) throws RepositoryException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
 
             String query = Query.CHANGE_DECLINE_REASON;
@@ -372,12 +354,9 @@ public class OrderSQLRepository implements OrderRepository {
 
             preparedStatement.executeUpdate();
         }
-        catch (SQLException e) {
+        catch (SQLException | ConnectionPoolException e) {
             logger.error(DATABASE_ERROR, e);
-            throw new RuntimeException();
-        }
-        catch (ConnectionPoolException e) {
-            throw new RuntimeException();
+            throw new RepositoryException(DATABASE_ERROR);
         }
         finally {
             pool.closeConnection(connection, preparedStatement);

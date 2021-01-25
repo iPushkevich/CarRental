@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `cars_rent_test`.`cars_return` (
+  `car_return_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `car_return_date` DATETIME NULL DEFAULT NULL,
+  `car_return_damage_description` VARCHAR(225) NULL DEFAULT 'No damage',
+  `car_return_fuel_lvl` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
+  `car_return_cost_penalty` DECIMAL(6,2) NULL DEFAULT '0.00',
+  `car_return_penalty_description` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`car_return_id`),
+  UNIQUE INDEX `cars_return_id_UNIQUE` (`car_return_id` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

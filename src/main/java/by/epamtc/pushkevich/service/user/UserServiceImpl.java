@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int getUserId(String email, String password) throws ServiceException {
-        int userId = 0;
+        int userId;
         String hashPassword = getUserHashPassword(email);
 
         if (!hashPassword.equals(password)) {

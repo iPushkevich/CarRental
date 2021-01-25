@@ -22,6 +22,11 @@ public class Controller extends HttpServlet {
     private final Logger logger = LogManager.getLogger(Controller.class);
 
     @Override
+    public void init() {
+        logger.info("Application is started");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         apply(req,resp);
     }
@@ -49,6 +54,8 @@ public class Controller extends HttpServlet {
 
     @Override
     public void destroy() {
+        logger.info("Application is stopped");
+
         try {
             ConnectionPool pool = ConnectionPool.getInstance();
             pool.destroyConnectionPool();

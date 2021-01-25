@@ -119,15 +119,14 @@ public class AllUsersCommand implements Command {
             }
 
             request.setAttribute(USERS, users);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher(direction);
-            dispatcher.forward(request, response);
-
         }
         catch (ServiceException e) {
           if (e.getMessage().equalsIgnoreCase(DATABASE_ERROR)){
               throw new RuntimeException();
           }
         }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(direction);
+        dispatcher.forward(request, response);
     }
 }

@@ -42,6 +42,8 @@ public class OrderInfoCommand implements Command {
     private static final String CAR = "car";
     private static final String USER = "user";
 
+    private static final String DATABASE_ERROR = "Database error";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String direction = CommandParameterName.GO_TO_ORDER_INFO_PAGE.getDirection();
@@ -69,7 +71,8 @@ public class OrderInfoCommand implements Command {
                 if (newOrderStatus.equalsIgnoreCase(STATUS_DECLINED)) {
                     orderStatus = STATUS_DECLINED;
                     request.setAttribute(STATUS_DECLINED, STATUS_DECLINED);
-                } else {
+                }
+                else {
                     if (newOrderStatus.equalsIgnoreCase(STATUS_ACCEPTED)) {
                         orderStatus = STATUS_ACCEPTED;
                     }
@@ -113,7 +116,9 @@ public class OrderInfoCommand implements Command {
             dispatcher.forward(request, response);
         }
         catch (ServiceException e) {
-
+            if (e.getMessage().equalsIgnoreCase(DATABASE_ERROR)) {
+                throw new RuntimeException();
+            }
         }
     }
 }

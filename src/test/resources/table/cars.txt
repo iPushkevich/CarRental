@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS `cars_rent_test`.`cars` (
+  `car_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `car_brand` VARCHAR(45) NULL DEFAULT NULL,
+  `car_model` VARCHAR(45) NULL DEFAULT NULL,
+  `car_year` SMALLINT(6) NULL DEFAULT NULL,
+  `car_mileage` INT(10) UNSIGNED NULL DEFAULT NULL,
+  `car_engine_type` VARCHAR(45) NULL DEFAULT NULL,
+  `car_engine_size` DECIMAL(2,1) NULL DEFAULT NULL,
+  `car_transmission` ENUM('AUTO', 'MANUAL') NULL DEFAULT NULL,
+  `car_wheels_drive` VARCHAR(45) NULL DEFAULT NULL,
+  `car_type` VARCHAR(45) NULL DEFAULT NULL,
+  `car_rent_count` INT(10) UNSIGNED NULL DEFAULT '0',
+  `is_car_available` TINYINT(4) NULL DEFAULT '1',
+  PRIMARY KEY (`car_id`),
+  UNIQUE INDEX `car_id_UNIQUE` (`car_id` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 589
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

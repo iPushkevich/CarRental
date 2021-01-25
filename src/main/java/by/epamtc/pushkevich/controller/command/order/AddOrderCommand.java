@@ -19,12 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static java.lang.System.out;
 
 public class AddOrderCommand implements Command {
     private final OrderServiceFactory orderFactory = OrderServiceFactory.getInstance();
@@ -51,6 +48,8 @@ public class AddOrderCommand implements Command {
     private static final String IS_CAR_AVAILABLE = "isAvailable";
     private static final String ORDER_CREATED = "orderCreated";
     private static final String ORDER_CREATED_MSG = "Order successfully created";
+
+    private static final String DATABASE_ERROR = "Database error";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -80,7 +79,8 @@ public class AddOrderCommand implements Command {
 
                 try {
                     startDate = reqFormat.parse(String.valueOf(rentStart));
-                } catch (ParseException e) {
+                }
+                catch (ParseException e) {
                     e.printStackTrace();
                 }
 
@@ -117,7 +117,8 @@ public class AddOrderCommand implements Command {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(direction);
                 dispatcher.forward(request, response);
 
-            } else {
+            }
+            else {
                 order = (Order) session.getAttribute(ORDER);
                 orderService.addOrder(order, userID);
                 boolean isCarAvailable = (boolean) session.getAttribute(IS_CAR_AVAILABLE);
@@ -138,9 +139,9 @@ public class AddOrderCommand implements Command {
             }
         }
         catch (ServiceException e) {
-            Throwable ee =  e.getCause();
-            String message = ee.getMessage();
-            out.println(message);
+            if (e.getMessage().equalsIgnoreCase(DATABASE_ERROR)) {
+                throw new RuntimeException();
+            }
         }
     }
 }
