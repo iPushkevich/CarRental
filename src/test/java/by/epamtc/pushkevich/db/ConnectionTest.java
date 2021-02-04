@@ -19,8 +19,7 @@ public class ConnectionTest {
     }
 
     @Test
-    public void checkConnectionPool() throws ConnectionPoolException {
-        initConnection();
+    public void checkConnectionPool() {
         assertNotNull(pool);
     }
 

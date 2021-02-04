@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS `cars_rent_test`.`orders` (
+  `order_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `rent_start` TIMESTAMP NULL DEFAULT NULL,
+  `rent_end` TIMESTAMP NULL DEFAULT NULL,
+  `cost_rate` DOUBLE NULL DEFAULT NULL,
+  `final_cost` DOUBLE NULL DEFAULT NULL,
+  `order_status` VARCHAR(45) NULL DEFAULT 'обрабатывается',
+  `order_decline_reason` VARCHAR(255) NULL DEFAULT NULL,
+  `user_id` INT(11) NULL DEFAULT NULL,
+  `car_id` INT(11) NULL DEFAULT '0',
+  `car_return_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  UNIQUE INDEX `order_id_UNIQUE` (`order_id` ASC) VISIBLE,
+  INDEX `fk_order_cars1_idx` (`car_id` ASC) VISIBLE,
+  INDEX `fk_orders_cars_return1_idx` (`car_return_id` ASC) VISIBLE,
+  CONSTRAINT `fk_order_cars1`
+    FOREIGN KEY (`car_id`)
+    REFERENCES `cars_rent`.`cars` (`car_id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_cars_return1`
+    FOREIGN KEY (`car_return_id`)
+    REFERENCES `cars_rent`.`cars_return` (`car_return_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 65
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

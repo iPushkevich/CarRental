@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS `cars_rent_test`.`roles` (
+  `role_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_role` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`role_id`),
+  UNIQUE INDEX `user_role_UNIQUE` (`role_id` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

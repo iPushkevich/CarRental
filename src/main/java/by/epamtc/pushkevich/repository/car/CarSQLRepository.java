@@ -13,13 +13,12 @@ import java.sql.*;
 import java.util.*;
 
 /**
- * The class is MySQL version of the <code>CarRepository</code> implementation.
- * Every method can throw exception with "Database error" message. If you get exception with this message
- * in your catch block you should throw new <exeption>RuntimeException</exeption>.
+ * This class is MySQL version of the <code>{@link CarRepository}</code> implementation
+ * Every method can throw <code>RepositoryException</code> with <strong>Database error</strong> message. If you get an exception with this message
+ * in your catch block you should throw new <code>RuntimeException</code>
  * @author Igor Pushkevich
  * @version 1.0
  * */
-
 public class CarSQLRepository implements CarRepository{
     private ConnectionPool pool;
     private final Logger logger = LogManager.getLogger(CarSQLRepository.class);
@@ -27,9 +26,9 @@ public class CarSQLRepository implements CarRepository{
     private static final String DATABASE_ERROR = "Database error";
 
     /**
-     * Returns all available <code>Car</code>
+     * Returns all existing cars
      * @return list of <code>Car</code>
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public Map<Integer, Car> getAllCars() throws RepositoryException {
@@ -42,8 +41,8 @@ public class CarSQLRepository implements CarRepository{
 
     /**
      * Add new <code>Car</code> to database
-     * @param car
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @param car new car
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public void addNewCar(Car car) throws RepositoryException {
@@ -98,7 +97,7 @@ public class CarSQLRepository implements CarRepository{
     /**
      * Execute statement and update information about <code>Car</code>
      * @param car current car
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public void updateCar(Car car) throws RepositoryException {
@@ -149,7 +148,7 @@ public class CarSQLRepository implements CarRepository{
 
     /**
      * @return List of all available car brands.
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public Set<String> getAllBrands() throws RepositoryException {
@@ -191,7 +190,7 @@ public class CarSQLRepository implements CarRepository{
      * Returns list of all available car models by one car brand.
      * @param brand one of available car brand
      * @return list of car models
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public Set<String> getAllModelsByBrand(String brand) throws RepositoryException {
@@ -231,10 +230,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Returns Map<Integer, Car>, where key is <code>Car</code> id.
+     * Returns Map<Integer, Car>, where key is <code>Car</code> id
      * @param brand one of available car brand
      * @return map where key is car id
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public Map<Integer, Car> getCarsByBrand(String brand) throws RepositoryException {
@@ -248,10 +247,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Returns Map<Integer, Car>, where key is <code>Car</code> id.
+     * Returns Map<Integer, Car>, where key is <code>Car</code> id
      * @param model one of available car models
      * @return map where key is car id
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public Map<Integer, Car> getCarsByModel(String model) throws RepositoryException {
@@ -266,10 +265,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Returns <code>Car</code> based on car`s id.
+     * Returns <code>Car</code> based on car`s id
      * @param carID unique car identifier
      * @return <code>Car</code>
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public Car getCarByID(int carID) throws RepositoryException {
@@ -315,10 +314,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Returns all available cars from all existing cars.
+     * Returns all available cars from all existing cars
      * @param cars map of all existing cars
      * @return map of all available cars
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public Map<Integer, Car> getAvailableCars(Map<Integer, Car> cars) throws RepositoryException {
@@ -365,7 +364,7 @@ public class CarSQLRepository implements CarRepository{
      * Checks if a car is available for order
      * @param carID unique car identifier
      * @return true if car is available for order
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public boolean isCarAvailable(int carID) throws RepositoryException {
@@ -400,10 +399,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Returns <code>CarRentInfo</code information about a car rent.
+     * Returns <code>CarRentInfo</code information about a car rent
      * @param carID unique car identifier
      * @return car rent information
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public CarRentInfo getCarRentInfoByCarID(int carID) throws RepositoryException {
@@ -443,10 +442,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Add <code>CarRentInfo</code> based on car id.
+     * Add <code>CarRentInfo</code> based on car id
      * @param rentInfo information about car rent
      * @param carID unique car identifier
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public void addCarRentInfoByCarID(CarRentInfo rentInfo, int carID) throws RepositoryException {
@@ -485,10 +484,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Update <code>CarRentInfo</code> based on car id.
+     * Update <code>CarRentInfo</code> based on car id
      * @param rentInfo information about car rent
      * @param carID unique car identifier
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public void updateCarRentInfoByCarID(CarRentInfo rentInfo, int carID) throws RepositoryException {
@@ -526,10 +525,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Returns list of all car reviews based on car id.
+     * Returns list of all car reviews based on car id
      * @param carID unique car identifier
      * @return list of car reviews
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public List<String> getCarReviewsByCarID(int carID) throws RepositoryException {
@@ -566,10 +565,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Add review about car reviews based on car id.
+     * Add review about car reviews based on car id
      * @param review car review
      * @param carID unique car identifier
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public void addCarReviewByCarID(String review, int carID) throws RepositoryException {
@@ -599,10 +598,10 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Deletes review about car reviews based on car id.
+     * Deletes review about car reviews based on car id
      * @param review car review
      * @param carID unique car identifier
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public void deleteCarReviewByCarID(String review, int carID) throws RepositoryException {
@@ -632,9 +631,9 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * Changes car availability for order based on car id.
+     * Changes car availability for order based on car id
      * @param carID unique car identifier
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     @Override
     public void changeCarAvailability(int carID) throws RepositoryException {
@@ -669,11 +668,11 @@ public class CarSQLRepository implements CarRepository{
     }
 
     /**
-     * General method for finding cars by criteria.
+     * General method for finding cars by criteria
      * @param cars map of cars
      * @param query statement for finding
      * @return map where key is car id, value is <code>Car</code>
-     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem.
+     * @throws RepositoryException with "Database error" message if has any problem with database and documents problem
      */
     private Map<Integer, Car> getCarsByCriteria (Map<Integer, Car> cars, String query) throws RepositoryException {
         Connection connection = null;

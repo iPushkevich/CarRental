@@ -18,7 +18,7 @@ public interface UserService {
 
     boolean isPasswordConfirmed(String password, String hashPassword);
 
-    boolean isUserExists(String email);
+    boolean isUserExists(String email) throws ServiceException;
 
     User getUser(String email, String password) throws ServiceException;
 

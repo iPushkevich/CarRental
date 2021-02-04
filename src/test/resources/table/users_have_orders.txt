@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS `cars_rent_test`.`users_have_orders` (
+  `user_id` INT(11) NOT NULL,
+  `order_id` INT(11) NOT NULL,
+  PRIMARY KEY (`user_id`, `order_id`),
+  INDEX `fk_users_has_orders_orders1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_users_has_orders_users1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_users_has_orders_orders1`
+    FOREIGN KEY (`order_id`)
+    REFERENCES `cars_rent`.`orders` (`order_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_users_has_orders_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cars_rent`.`users` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

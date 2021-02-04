@@ -64,7 +64,7 @@ public final class ConnectionPool {
                 localInstance = INSTANCE;
 
                 if (localInstance == null){
-                    localInstance = INSTANCE = new ConnectionPool();
+                    INSTANCE = localInstance = new ConnectionPool();
                 }
             }
         }

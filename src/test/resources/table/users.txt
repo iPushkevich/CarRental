@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS `cars_rent_test`.`users` (
+  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_email` VARCHAR(225) NULL DEFAULT NULL,
+  `user_password` VARCHAR(255) NULL DEFAULT NULL,
+  `user_registration_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_has_active_rent` TINYINT(4) NULL DEFAULT '0',
+  `user_role_id` INT(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `id_UNIQUE` (`user_id` ASC) VISIBLE,
+  UNIQUE INDEX `user_email_UNIQUE` (`user_email` ASC) VISIBLE,
+  INDEX `fk_users_roles1_idx` (`user_role_id` ASC) VISIBLE,
+  CONSTRAINT `fk_users_roles`
+    FOREIGN KEY (`user_role_id`)
+    REFERENCES `cars_rent`.`roles` (`role_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 161
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

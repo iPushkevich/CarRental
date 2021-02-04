@@ -369,7 +369,7 @@ public class OrderSQLRepository implements OrderRepository {
 
         private final static String GET_ORDER_ID = "SELECT order_id FROM orders WHERE (rent_start, rent_end_cost_rate, final_cost, user_id, car_id) = (?,?,?,?,?,?) ";
 
-        private final static String BIND_USER_ORDER = "INSERT INTO users_has_orders (user_id, order_id) VALUES (?,?)";
+        private final static String BIND_USER_ORDER = "INSERT INTO users_have_orders (user_id, order_id) VALUES (?,?)";
 
         private final static String GET_CAR_RENT_END = "SELECT rent_end FROM orders WHERE car_id = ";
 
