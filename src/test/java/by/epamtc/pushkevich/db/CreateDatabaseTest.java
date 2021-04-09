@@ -26,6 +26,18 @@ public class CreateDatabaseTest {
     private static final String CREATE_USERS_INFO_TABLE = "src/test/resources/table/users_info.txt";
     private static final String DROP_SCHEMA = "src/test/resources/table/drop_schema.txt";
 
+    private static final String SELECT_QUERY = "SELECT * FROM cars_rent_test.";
+    private static final String CARS_TABLE = "cars";
+    private static final String CARS_RENT_INFO_TABLE = "cars_rent_info";
+    private static final String CARS_RETURN_TABLE = "cars_return";
+    private static final String CARS_REVIEWS_TABLE = "cars_reviews";
+    private static final String ORDERS_TABLE = "orders";
+    private static final String ROLES_TABLE = "roles";
+    private static final String USERS_HAVE_ORDERS_TABLE = "users_have_orders";
+    private static final String USERS_INFO_TABLE = "users_info";
+    private static final String USERS_TABLE = "users";
+
+
     @BeforeClass
     public static void createDatabase() throws IOException, SQLException, ConnectionPoolException {
         File file = new File(CREATE_SCHEMA);
@@ -84,7 +96,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.cars").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + CARS_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -137,7 +149,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.cars_rent_info").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + CARS_RENT_INFO_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -178,7 +190,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.cars_return").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + CARS_RETURN_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -216,7 +228,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.cars_reviews").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + CARS_REVIEWS_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -255,7 +267,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.orders").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + ORDERS_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -300,7 +312,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.roles").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + ROLES_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -333,7 +345,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.users").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + USERS_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -371,7 +383,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.users_have_orders").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + USERS_HAVE_ORDERS_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);
@@ -412,7 +424,7 @@ public class CreateDatabaseTest {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.executeUpdate();
 
-        ResultSetMetaData metaData = statement.executeQuery("SELECT * FROM cars_rent_test.users_info").getMetaData();
+        ResultSetMetaData metaData = statement.executeQuery(SELECT_QUERY + USERS_INFO_TABLE).getMetaData();
 
         String column1ActualName = metaData.getColumnName(1);
         String column2ActualName = metaData.getColumnName(2);

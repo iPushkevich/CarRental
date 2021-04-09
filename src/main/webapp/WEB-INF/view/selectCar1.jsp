@@ -156,7 +156,7 @@
             <c:forEach var="brand" items="${requestScope.brands}">
                 <button class="btn btn-sm" type="submit" name="brand" value="${brand}">
                     <div class="tilt">
-                        <img src="${pageContext.request.contextPath}/css/img/${brand.toLowerCase()}.jpg" width="200"
+                        <img src="${pageContext.request.contextPath}/css/img/brand/${brand.toLowerCase()}.jpg" width="200"
                              height="200" alt="${brand}"/>
                     </div>
                 </button>
