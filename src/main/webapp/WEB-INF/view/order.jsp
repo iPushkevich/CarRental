@@ -10,7 +10,6 @@
     <title>Order</title>
 </head>
 <body>
-
 <c:if test="${sessionScope.userRole == null}">
     <c:redirect url="controller?command=go_to_login_page"/>
 </c:if>

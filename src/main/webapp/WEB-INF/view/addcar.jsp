@@ -1,14 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@include file="header.jsp"%>
+<%@include file="header.jsp" %>
 
 <html>
 <head>
     <title>Add new car</title>
 </head>
 <body>
-
 <c:if test="${sessionScope.userRole ne 'администратор' && sessionScope.userRole ne 'владелец'}">
     <c:redirect url="controller?command=go_to_main_page"/>
 </c:if>

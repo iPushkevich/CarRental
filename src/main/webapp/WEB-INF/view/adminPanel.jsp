@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@include file="header.jsp"%>
+<%@include file="header.jsp" %>
 
 <html>
 <head>
@@ -15,9 +15,9 @@
 <%session.removeAttribute("car");%>
 <%session.removeAttribute("carRentInfo");%>
 
-<%--<h1 align="center" style="color:Black"><a href="controller?command=show_cars">Автомобили</a></h1>--%>
-<%--<h1 align="center" style="color:Black"><a href="controller?command=all_users">Пользователи</a></h1>--%>
-<%--<h1 align="center" style="color:Black"><a href="controller?command=all_orders">Заказы</a></h1>--%>
+<h1 align="center" style="color:Black"><a href="controller?command=show_cars">Автомобили</a></h1>
+<h1 align="center" style="color:Black"><a href="controller?command=all_users">Пользователи</a></h1>
+<h1 align="center" style="color:Black"><a href="controller?command=all_orders">Заказы</a></h1>
 
 
 <c:if test="${requestScope.cars != null}">

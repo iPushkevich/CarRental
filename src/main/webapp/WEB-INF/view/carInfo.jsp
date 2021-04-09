@@ -1,14 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@include file="header.jsp" %>
+
 <html>
 <head>
     <title>Car Info</title>
 </head>
 <body>
-
-<jsp:include page="header.jsp"/>
-
 <c:if test="${requestScope == null}">
     <c:redirect url="controller?command=go_to_main_page"/>
 </c:if>

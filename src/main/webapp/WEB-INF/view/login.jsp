@@ -12,7 +12,6 @@
 <fmt:message bundle="${loc}" key="user.not.found" var="userNotFound"/>
 <fmt:message bundle="${loc}" key="wrong.password" var="wrongPassword"/>
 
-
 <html>
 <head>
     <title>LOGIN</title>
